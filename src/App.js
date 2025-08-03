@@ -1,11 +1,15 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-
 import Dashboard from "./pages/Dashboard";
 import Peta from "./pages/Peta";
 import Statistik from "./pages/Statistik";
 import Login from "./pages/Login";
+import AdminLayout from "./components/AdminLayout";
+import HitungBiaya from './pages/HitungBiaya';
+import Rute from './pages/Rute';
+import RekapHarian from "./pages/RekapHarian";
 
+// Komponen tracker Matomo
 const MatomoTracker = () => {
   const location = useLocation();
 
@@ -18,7 +22,7 @@ const MatomoTracker = () => {
     _paq.push(["enableLinkTracking"]);
 
     if (!window._matomoScriptInjected) {
-      const u = "//localhost/matomo/";
+      const u = "https://mil-yemen-vast-exceptions.trycloudflare.com/matomo/index.php";
       _paq.push(["setTrackerUrl", u + "matomo.php"]);
       _paq.push(["setSiteId", "1"]);
 
@@ -45,15 +49,19 @@ const MatomoTracker = () => {
   return null;
 };
 
+// App utama
 export default function App() {
   return (
     <Router>
       <MatomoTracker />
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/peta" element={<Peta />} />
-        <Route path="/statistik" element={<Statistik />} />
+        <Route path="/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
+        <Route path="/peta" element={<AdminLayout><Peta /></AdminLayout>} />
+        <Route path="/statistik" element={<AdminLayout><Statistik /></AdminLayout>} />
+        <Route path="/hitungbiaya" element={<HitungBiaya />} />
+        <Route path="/rute" element={<Rute />} />
+        <Route path="/rekap-harian" element={<RekapHarian />} />
       </Routes>
     </Router>
   );

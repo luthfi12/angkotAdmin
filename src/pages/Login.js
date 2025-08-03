@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -8,32 +7,17 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     setError("");
 
-    try {
-      const response = await fetch("http://localhost:3001/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, password })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log("Login berhasil:", data.message);
-        localStorage.setItem("isAuthenticated", "true");
-        localStorage.setItem("username", username);
-        navigate("/dashboard");
-      } else {
-        setError(data.error || "Login gagal");
-      }
-    } catch (err) {
-      console.error("Gagal koneksi ke server:", err);
-      setError("Tidak dapat terhubung ke server backend");
+    // Hardcoded credentials
+    if (username === "admin" && password === "123456") {
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("username", username);
+      navigate("/dashboard");
+    } else {
+      setError("Username atau password salah");
     }
   };
 
@@ -63,7 +47,7 @@ const Login = () => {
         />
         <button
           type="submit"
-          className="w-full bg-blue-600  py-2 rounded hover:bg-blue-700"
+          className="w-full bg-blue-600 text-black py-2 rounded hover:bg-blue-700"
         >
           Login
         </button>
